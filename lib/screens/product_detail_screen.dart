@@ -50,19 +50,19 @@ class ProductDetailScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              width: double.infinity,
-              child: IconButton(
-                onPressed: () {
-                  loadedProduct.toggleFavoriteStatus();
-                },
-                icon: Icon(loadedProduct.isFavorite
-                    ? Icons.favorite
-                    : Icons.favorite_border),
-                color: Theme.of(context).accentColor,
-              ),
-            ),
+            // Container(
+            //   padding: EdgeInsets.symmetric(horizontal: 10),
+            //   width: double.infinity,
+            //   child: IconButton(
+            //     onPressed: () {
+            //       loadedProduct.toggleFavoriteStatus();
+            //     },
+            //     icon: Icon(loadedProduct.isFavorite
+            //         ? Icons.favorite
+            //         : Icons.favorite_border),
+            //     color: Theme.of(context).accentColor,
+            //   ),
+            // ),
           ],
         ),
       ),
