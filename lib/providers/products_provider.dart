@@ -36,7 +36,7 @@ class ProductsProvider with ChangeNotifier {
     // ),
     // Product(
     //   id: 'p4',
-    //   title: 'A Pan',
+    //   title: 'Pan',
     //   description: 'Prepare any meal you want.',
     //   price: 49.99,
     //   imageUrl:
@@ -63,8 +63,12 @@ class ProductsProvider with ChangeNotifier {
     try {
       final response = await http.get(url);
       // print(json.decode(response.body));
-      final List<Product> loadedProduct = [];
+
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) {
+        return;
+      }
+      final List<Product> loadedProduct = [];
       extractedData.forEach((productId, productData) {
         loadedProduct.add(Product(
           id: productId,
@@ -98,7 +102,7 @@ class ProductsProvider with ChangeNotifier {
           'isFavorite': product.isFavorite,
         }),
       );
-      print(json.decode(response.body));
+      // print(json.decode(response.body));
       final newProduct = Product(
         // id: DateTime.now().toString(),
         id: json.decode(response.body)['name'],
@@ -148,7 +152,7 @@ class ProductsProvider with ChangeNotifier {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
       throw HttpException('Could not delete product.');
-    } 
+    }
     existingProduct = null;
   }
 }
