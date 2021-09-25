@@ -19,6 +19,45 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showFavoritesOnly = false;
+  var _isLoading = false;
+  var _isInit = true;
+
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<ProductsProvider>(context, listen: false)
+        .fetchAndSetProducts();
+  }
+
+  @override
+  void initState() {
+    // Provider.of<ProductsProvider>(context).fetchAndSetProducts();  //// Won't work
+    ///////////////// CONTEXT is NOT available in the initState function ////////////
+
+    ////////////// ONE WAY TO SOLVE THIS PROBLEM///////////
+    // Future.delayed(Duration.zero).then((value) {
+    //   Provider.of<ProductsProvider>(context)
+    //       .fetchAndSetProducts();
+    // });
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<ProductsProvider>(context)
+          .fetchAndSetProducts()
+          .then((value) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +72,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   _showFavoritesOnly = true;
                 } else {
                   // productsContainer.showAll();
-
                   _showFavoritesOnly = false;
                 }
               });
@@ -68,9 +106,16 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(
-        showFavoritesOnly: _showFavoritesOnly,
-      ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : RefreshIndicator(
+            onRefresh: () => _refreshProducts(context), 
+            child: ProductsGrid(
+                showFavoritesOnly: _showFavoritesOnly,
+              ),
+          ),
     );
   }
 }
