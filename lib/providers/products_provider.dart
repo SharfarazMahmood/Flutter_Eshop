@@ -5,7 +5,7 @@ import 'package:shop_app/models/http_exception.dart';
 import './product.dart';
 
 class ProductsProvider with ChangeNotifier {
-  final _serverUrl = 'flutter-eshop-fdda7-default-rtdb.firebaseio.com';
+  final _serverUrl = 'flutter-app-e9af7-default-rtdb.firebaseio.com';
   final _productsUrl = '/products';
   final _jsonUrl = '.json';
 

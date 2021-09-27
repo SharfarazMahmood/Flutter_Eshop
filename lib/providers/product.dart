@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Product with ChangeNotifier {
-  final _serverUrl = 'flutter-eshop-fdda7-default-rtdb.firebaseio.com';
+  final _serverUrl = 'flutter-app-e9af7-default-rtdb.firebaseio.com';
   final _productsUrl = '/products';
   final _jsonUrl = '.json';
 
@@ -43,7 +43,7 @@ class Product with ChangeNotifier {
         }),
       );
       if (response.statusCode >= 400) {
-      _setFavValue(oldStatus);
+        _setFavValue(oldStatus);
       }
     } catch (error) {
       _setFavValue(oldStatus);

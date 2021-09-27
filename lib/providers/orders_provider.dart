@@ -19,7 +19,7 @@ class OrderItem {
 }
 
 class OrderProvider with ChangeNotifier {
-  final _serverUrl = 'flutter-eshop-fdda7-default-rtdb.firebaseio.com';
+  final _serverUrl = 'flutter-app-e9af7-default-rtdb.firebaseio.com';
   final _ordersUrl = '/orders';
   final _jsonUrl = '.json';
 

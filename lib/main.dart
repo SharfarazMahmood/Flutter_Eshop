@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/orders_provider.dart';
+import 'package:shop_app/screens/auth_screen.dart';
 import 'package:shop_app/screens/edit_product_screen.dart';
 import 'package:shop_app/screens/orders_screen.dart';
 import 'package:shop_app/screens/user_products_screen.dart';
@@ -17,15 +19,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (ctx) => ProductsProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => OrderProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => CartProvider(),
-        ),
+        ChangeNotifierProvider.value(value: Auth()),
+        ChangeNotifierProvider.value(value: ProductsProvider()),
+        ChangeNotifierProvider.value(value: OrderProvider()),
+        ChangeNotifierProvider.value(value: CartProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -35,8 +32,9 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepOrangeAccent,
           fontFamily: 'Lato',
         ),
-        home: ProductsOverviewScreen(),
+        home: AuthScreen(),
         routes: {
+          AuthScreen.routeName: (ctx) => AuthScreen(),
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
           OrdersScreen.routeName: (ctx) => OrdersScreen(),
