@@ -19,18 +19,30 @@ class OrderItem {
 }
 
 class OrderProvider with ChangeNotifier {
-  final _serverUrl = 'flutter-app-e9af7-default-rtdb.firebaseio.com';
+  final _serverUrl = 'https://flutter-app-e9af7-default-rtdb.firebaseio.com';
   final _ordersUrl = '/orders';
   final _jsonUrl = '.json';
+  final String _tockenSegment = '?auth=';
+  final String authToken;
+
+  final String userId;
 
   List<OrderItem> _orders = [];
 
-  List<OrderItem> get order {
+  OrderProvider(this._orders, {this.userId, this.authToken});
+
+  List<OrderItem> get orders {
     return [..._orders];
   }
 
   Future<void> fetchAndSetOrders() async {
-    final url = Uri.https(_serverUrl, _ordersUrl + _jsonUrl);
+    // final ordersUrl = "https://flutter-app-e9af7-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken" ;
+    final url = Uri.parse(_serverUrl +
+        _ordersUrl +
+        '/$userId' +
+        _jsonUrl +
+        _tockenSegment +
+        authToken);
 
     final response = await http.get(url);
     // print(json.decode(response.body));
@@ -66,7 +78,12 @@ class OrderProvider with ChangeNotifier {
 
   Future<void> addOrder(
       {List<CartItem> cartProducts, double totalPrice}) async {
-    final url = Uri.https(_serverUrl, _ordersUrl + _jsonUrl);
+    final url = Uri.parse(_serverUrl +
+        _ordersUrl +
+        '/$userId' +
+        _jsonUrl +
+        _tockenSegment +
+        authToken);
     final timeStamp = DateTime.now();
     final response = await http.post(
       url,

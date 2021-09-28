@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Product with ChangeNotifier {
-  final _serverUrl = 'flutter-app-e9af7-default-rtdb.firebaseio.com';
-  final _productsUrl = '/products';
+  final _serverUrl = 'https://flutter-app-e9af7-default-rtdb.firebaseio.com';
+  final _productsUrl = '/userFavorites';
   final _jsonUrl = '.json';
 
   final String id;
@@ -29,18 +29,26 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String authToken, String userId) async {
+    final String _tockenSegment = '?auth=';
+
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
 
-    final url = Uri.https(_serverUrl, _productsUrl + '/${id}' + _jsonUrl);
+    final url = Uri.parse(_serverUrl +
+        _productsUrl +
+        '/$userId' +
+        '/$id' +
+        _jsonUrl +
+        _tockenSegment +
+        authToken);
     try {
-      final response = await http.patch(
+      final response = await http.put(
         url,
-        body: json.encode({
-          'isFavorite': isFavorite,
-        }),
+        body: json.encode(
+          isFavorite,
+        ),
       );
       if (response.statusCode >= 400) {
         _setFavValue(oldStatus);

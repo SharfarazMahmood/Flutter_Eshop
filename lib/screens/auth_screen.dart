@@ -6,10 +6,7 @@ import 'package:provider/provider.dart';
 import '../models/http_exception.dart';
 import '../providers/auth_provider.dart';
 
-enum AuthMode {
-  Signup,
-  Login,
-}
+enum AuthMode { Signup, Login }
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
@@ -137,13 +134,13 @@ class _AuthCardState extends State<AuthCard> {
     try {
       if (_authMode == AuthMode.Login) {
         // Log user in
-        await Provider.of<Auth>(context, listen: false).login(
+        await Provider.of<AuthProvider>(context, listen: false).login(
           _authData['email'],
           _authData['password'],
         );
       } else {
         // Sign user up
-        await Provider.of<Auth>(context, listen: false).signup(
+        await Provider.of<AuthProvider>(context, listen: false).signup(
           _authData['email'],
           _authData['password'],
         );
@@ -163,6 +160,7 @@ class _AuthCardState extends State<AuthCard> {
       }
       _showErrorDialog(errorMessage);
     } catch (error) {
+      print(error);
       var errorMessage = 'Could not authenticate you. Please try again later.';
       _showErrorDialog(errorMessage);
     }
