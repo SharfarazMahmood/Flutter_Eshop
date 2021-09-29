@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/products_provider.dart';
-import '../providers/product.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+import '../providers/auth_provider.dart';
+import '../providers/cart_provider.dart';
+import '../widgets/add_to_cart_button.dart';
+import '../providers/products_provider.dart';
+
+
+class ProductDetailScreen extends StatefulWidget {
   static const routeName = '/product_detail';
 
+  @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context).settings.arguments as String;
     final loadedProduct = Provider.of<ProductsProvider>(
       context,
-      listen: false,
+      // listen: false,
     ).findById(productId);
+    final authData = Provider.of<AuthProvider>(context);
+    final cart = Provider.of<CartProvider>(context, listen: false);
+
     return Scaffold(
       // appBar: AppBar(
       //   title: Text(loadedProduct.title),
@@ -60,20 +72,33 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 800),
-              // Container(
-              //   padding: EdgeInsets.symmetric(horizontal: 10),
-              //   width: double.infinity,
-              //   child: IconButton(
-              //     onPressed: () {
-              //       loadedProduct.toggleFavoriteStatus();
-              //     },
-              //     icon: Icon(loadedProduct.isFavorite
-              //         ? Icons.favorite
-              //         : Icons.favorite_border),
-              //     color: Theme.of(context).accentColor,
-              //   ),
-              // ),
+              SizedBox(height: 10),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                width: double.infinity,
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      loadedProduct.toggleFavoriteStatus(
+                        authData.token,
+                        authData.userId,
+                      );
+                    });
+                  },
+                  icon: Icon(loadedProduct.isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border),
+                  color: Theme.of(context).accentColor,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                width: double.infinity,
+                child: AddToCartButton(
+                  cart: cart,
+                  loadedProduct: loadedProduct,
+                ),
+              ),
             ]),
           ),
         ],
