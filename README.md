@@ -58,7 +58,8 @@ border='2px #fff'>
 
 For the features implementation, the following Flutter packages are being used
 ```
-- provider
-- http
-- shared_preferences 
+- provider: ^6.0.0
+- provider: ^6.0.0
+- shared_preferences: ^2.0.8 
+- intl: ^0.17.0
 ```
