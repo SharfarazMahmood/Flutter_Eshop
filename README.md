@@ -54,11 +54,11 @@ border='2px #fff'>
 <br>
 ---
 
-
 ## In this project I have used __[FIREBASE](https://console.firebase.google.com/)__
 
 For the features implementation, the following Flutter packages are being used
+```
 - provider
-- image_picker
-- path_provider
-- path
+- http
+- shared_preferences 
+```
