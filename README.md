@@ -54,7 +54,7 @@ border='2px #fff'>
 <br>
 ---
 
-## In this project I have used __[FIREBASE](https://console.firebase.google.com/)__
+## In this project I have used __[FIREBASE](https://console.firebase.google.com/)__ as a backend
 
 For the features implementation, the following Flutter packages are being used
 ```
